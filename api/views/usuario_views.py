@@ -4,6 +4,7 @@ from ..schemas import usuario_schema
 from flask import request, make_response, jsonify
 from ..entidades import usuario
 from ..services import usuario_service
+import uuid
 
 
 class UsuarioList(Resource):
@@ -18,8 +19,9 @@ class UsuarioList(Resource):
             email = request.json["email"]
             senha = request.json["senha"]
             is_admin = request.json["is_admin"]
+            api_key = str(uuid.uuid4())
 
-            novo_usuario = usuario.Usuario(nome=nome, email=email, senha=senha, is_admin=is_admin)
+            novo_usuario = usuario.Usuario(nome=nome, email=email, senha=senha, is_admin=is_admin, api_key=api_key)
             resultado = usuario_service.cadastrar_usuario(novo_usuario)
             x = us.jsonify(resultado)
             return make_response(x, 201)

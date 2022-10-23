@@ -7,16 +7,16 @@ from ..services import curso_service, formacao_services
 from ..paginate import paginate
 from ..models.curso_model import Curso
 from flask_jwt_extended import jwt_required
-from ..decorator import admin_required
+from ..decorator import admin_required, api_key_required
 
 
 class Cursolist(Resource):
-    @jwt_required()
+    @api_key_required
     def get(self):
         cs = curso_schemas.CursoSchema(many=True)
         return paginate(Curso, cs)
 
-    @admin_required
+    @api_key_required
     def post(self):
         cs = curso_schemas.CursoSchema()
         validade = cs.validate(request.json)
@@ -38,7 +38,7 @@ class Cursolist(Resource):
 
 
 class CursoDetail(Resource):
-    @admin_required
+    @api_key_required
     def get(self, id):
         curso = curso_service.Listar_cursos_id(id)
         if curso is None:
@@ -46,7 +46,7 @@ class CursoDetail(Resource):
         cs = curso_schemas.CursoSchema()
         return make_response(cs.jsonify(curso), 200)
 
-    @admin_required
+    @api_key_required
     def put(self, id):
         curso_bd = curso_service.Listar_cursos_id(id)
         if curso_bd is None:
@@ -69,7 +69,7 @@ class CursoDetail(Resource):
             curso_atualizado = curso_service.Listar_cursos_id(id)
             return make_response(cs.jsonify(curso_atualizado), 200)
 
-    @admin_required
+    @api_key_required
     def delete(self, id):
         curso_bd = curso_service.Listar_cursos_id(id)
         if curso_bd is None:
