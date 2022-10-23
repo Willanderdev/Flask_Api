@@ -4,14 +4,17 @@ from ..schemas import professor_schemas
 from flask import request, make_response, jsonify
 from ..entidades import professor
 from ..services import professor_services
+from flask_jwt_extended import jwt_required
 
 
 class Professorlist(Resource):
+    @jwt_required()
     def get(self):
         professores = professor_services.listarprofessores()
         ps = professor_schemas.ProfessorSchema(many=True)
         return make_response(ps.jsonify(professores), 200)
 
+    @jwt_required()
     def post(self):
         ps = professor_schemas.ProfessorSchema()
         validade = ps.validate(request.json)
@@ -29,6 +32,7 @@ class Professorlist(Resource):
 
 
 class ProfessorDetail(Resource):
+    @jwt_required()
     def get(self, id):
         professor = professor_services.Listar_professor_id(id)
         if professor is None:
@@ -36,6 +40,7 @@ class ProfessorDetail(Resource):
         ps = professor_schemas.ProfessorSchema()
         return make_response(ps.jsonify(professor), 200)
 
+    @jwt_required()
     def put(self, id):
         professor_bd = professor_services.Listar_professor_id(id)
         if professor_bd is None:
@@ -53,6 +58,7 @@ class ProfessorDetail(Resource):
             professor_atualizado = professor_services.Listar_professor_id(id)
             return make_response(ps.jsonify(professor_atualizado), 200)
 
+    @jwt_required()
     def delete(self, id):
         professor_bd = professor_services.Listar_professor_id(id)
         if professor_bd is None:
