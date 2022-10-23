@@ -5,7 +5,7 @@ from flask import request, make_response, jsonify
 from ..entidades import formacao
 from ..services import formacao_services
 from flask_jwt_extended import jwt_required
-
+from ..decorator import admin_required
 
 class Formacaolist(Resource):
     @jwt_required()
@@ -14,7 +14,7 @@ class Formacaolist(Resource):
         cs = formacao_schemas.FormacaoSchema(many=True)
         return make_response(cs.jsonify(formacoes), 200)
 
-    @jwt_required()
+    @admin_required
     def post(self):
         cs = formacao_schemas.FormacaoSchema()
         validade = cs.validate(request.json)
@@ -32,7 +32,7 @@ class Formacaolist(Resource):
 
 
 class FormacaoDetail(Resource):
-    @jwt_required()
+    @admin_required
     def get(self, id):
         formacao = formacao_services.listar_formacao_id(id)
         if formacao is None:
@@ -40,7 +40,7 @@ class FormacaoDetail(Resource):
         cs = formacao_schemas.FormacaoSchema()
         return make_response(cs.jsonify(formacao), 200)
 
-    @jwt_required()
+    @admin_required
     def put(self, id):
         formacao_bd = formacao_services.listar_formacao_id(id)
         if formacao_bd is None:
@@ -58,7 +58,7 @@ class FormacaoDetail(Resource):
             formacao_atualizado = formacao_services.listar_formacao_id(id)
             return make_response(cs.jsonify(formacao_atualizado), 200)
 
-    @jwt_required()
+    @admin_required
     def delete(self, id):
         formacao_bd = formacao_services.listar_formacao_id(id)
         if formacao_bd is None:
