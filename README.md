@@ -1,7 +1,10 @@
 # Flask_Api
 Repositório usado pra versionar implementação de uma API construída com Flask
 
-API REST criada usando Python e Flask, estou usando o Postman como cliente pra testar enviar requisições, a implementação da API inclui o CRUD completo e até relacionamento de tabelas, base de dados Mysql..
+API REST criada usando Python e Flask, estou usando o Postman como cliente pra testar e enviar requisições.
+Nesta API implementei o CRUD completo, relacionamento entre tabelas, base de dados que estou usando e o MySQL..
+
+autenticação e segurança foi feita usando jwt Token e Api_key.. mas optei por deixar a autenticação de acesso via apikey..
 
 ARQUITETURA DE IMPLEMENTAÇÃO BASEADA NO DJANGO
 
